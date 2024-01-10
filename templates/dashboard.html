@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ username }}!</h2>
+        <li>Quiz 1: Submitted {{ quiz_data[0] }} times, Correct {{ quiz_data[1] }} times</li>
+        <li>Quiz 2: Submitted {{ quiz_data[2] }} times, Correct {{ quiz_data[3] }} times</li>
+        <li>Quiz 3: Submitted {{ quiz_data[4] }} times, Correct {{ quiz_data[5] }} times</li>
+        <li>Quiz 4: Submitted {{ quiz_data[6] }} times, Correct {{ quiz_data[7] }} times</li>
+        <a href="/logout">Logout</a>
+        <!-- Your dashboard content goes here -->
+        <form action="{{ url_for('index') }}">
+            <button type="submit">Go back to Game</button>
+        </form>
+    </div>
+    <!-- <div id="statistics-container"> -->
+        <!-- This is where you'll dynamically insert your chart or table with the stats -->
+    <!-- </div> -->
+    <!-- <script> -->
+        <!-- window.onload = function() { -->
+            <!-- fetch('/statistics') -->
+                <!-- .then(response => response.json()) -->
+                <!-- .then(data => { -->
+                    <!-- // Use this data to populate your chart or table -->
+                    <!-- console.log(data); -->
+                    <!-- const container = document.getElementById('statistics-container'); -->
+                    <!-- // For example, insert a simple table or chart into the container based on the fetched data -->
+                    <!-- // You'll replace this with actual code to generate the chart or table -->
+                    <!-- container.innerHTML = '<p>Chart or table will go here</p>'; -->
+                <!-- }) -->
+                <!-- .catch(error => { -->
+                    <!-- console.error('Error:', error); -->
+                    <!-- // Optionally, update the UI to indicate that the data couldn't be loaded -->
+                <!-- }); -->
+        <!-- }; -->
+    <!-- </script> -->
+    
+</body>
+</html>

@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ username }}!</h2>
+        <form method="post" action="{{ url_for('handle_answer') }}" id="question-form">
+            <label for="level">Select Level:</label>
+            <select name="level" id="level" onchange="loadQuestion()">
+                {% for i in range(1, 5) %}
+                <option value="{{ i }}" {% if session['selected_level'] == i %}selected{% endif %}>Level {{ i }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <!-- Display the question dynamically based on the selected level -->
+            <p id="question">Loading question...</p>
+    
+            <!-- Add radio buttons for answer options dynamically -->
+            <div id="answer-options"></div>
+    
+            <br>
+            <button type="submit">Submit Answer</button>
+        </form>
+        <a href="/dashboard">Go to Dashboard</a>
+        <a href="/logout">Logout</a>
+        <!-- Your game content goes here -->   
+    </div>
+    <script>
+        function loadQuestion() {
+            var level = document.getElementById("level").value;
+            var questionElement = document.getElementById("question");
+            var answerOptions = document.getElementById("answer-options");
+    
+            fetch("/get_question?level=" + level)
+                .then(response => response.json())
+                .then(data => {
+                    questionElement.innerText = data.question;
+                    answerOptions.innerHTML = '';  // Clear previous options or input
+                    
+                    if (level < 3) {
+                        
+                        data.options.forEach(function(option) {
+                            var radioOption = document.createElement("input");
+                            radioOption.type = "radio";
+                            radioOption.name = "answer";
+                            radioOption.value = option;
+                            
+                            var label = document.createElement("label");
+                            label.appendChild(document.createTextNode(option));
+                            
+                            answerOptions.appendChild(radioOption);
+                            answerOptions.appendChild(label);
+                            answerOptions.appendChild(document.createElement("br"));
+                        });
+                    } else {
+                        var textInput = document.createElement("input");
+                        textInput.type = "text";
+                        textInput.name = "answer";
+                        textInput.placeholder = "Type your answer here";
+                        answerOptions.appendChild(textInput);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        // Initialize the question when the page loads
+        window.onload = loadQuestion;
+    </script>
+    
+    
+</body>
+</html>
